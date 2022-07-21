@@ -67,7 +67,8 @@ export class UsersEffects {
       ofType('Update user'),
       mergeMap((editedUser) => {
         return this.UserService.onEditUser(editedUser).pipe(
-          map((data) => {
+          map(() => {
+            console.log('before return update success')
             return updateUserSuccess();
           })
         );

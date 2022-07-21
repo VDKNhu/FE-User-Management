@@ -289,7 +289,7 @@ onChangeEmail() {
   // add + edit user
   onSubmit(e: any) {
     console.log('edit/add', e.value);
-    if(!this.editedUser) {
+    if(true) {
       switch (e.value.title) {
         case 'teamLead': {
           this.ttl = 1;
@@ -316,34 +316,35 @@ onChangeEmail() {
           break;
         }
       }
-    } else {
-      switch (e.value.title) {
-        case 'teamLead': {
-          this.editTtl = "Team Lead";
-          break;
-        }
-        case 'architecture': {
-          this.editTtl = "Architecture";
-          break;
-        }
-        case 'webDev': {
-          this.editTtl = "Web Developer";
-          break;
-        }
-        case 'tester': {
-          this.editTtl = "Tester";
-          break;
-        }
-        case 'uiux': {
-          this.editTtl = "UI/UX";
-          break;
-        }
-        case 'dba': {
-          this.editTtl = "DBA";
-          break;
-        }
-      }  
-    }
+    } 
+    // else {
+    //   switch (e.value.title) {
+    //     case 'teamLead': {
+    //       this.editTtl = "Team Lead";
+    //       break;
+    //     }
+    //     case 'architecture': {
+    //       this.editTtl = "Architecture";
+    //       break;
+    //     }
+    //     case 'webDev': {
+    //       this.editTtl = "Web Developer";
+    //       break;
+    //     }
+    //     case 'tester': {
+    //       this.editTtl = "Tester";
+    //       break;
+    //     }
+    //     case 'uiux': {
+    //       this.editTtl = "UI/UX";
+    //       break;
+    //     }
+    //     case 'dba': {
+    //       this.editTtl = "DBA";
+    //       break;
+    //     }
+    //   }  
+    // }
 
     const addedUser: any = {
       firstName: e.value.firstName,

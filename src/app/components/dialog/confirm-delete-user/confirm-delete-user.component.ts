@@ -12,6 +12,7 @@ import {
 import { user } from '../../../models/user.model';
 import { appState } from 'app/state/store/app.state';
 import { Store } from '@ngrx/store';
+import { deleteUser } from 'app/state/users/users.action';
 // import { deleteUser } from 'app/state/users/users.action';
 
 @Component({
@@ -57,7 +58,7 @@ export class ConfirmDeleteUserComponent implements OnInit {
   }
 
   onDeleteUser(user: any) {
-    // this.store.dispatch(deleteUser(user));
+    this.store.dispatch(deleteUser(user));
     this.dialogRef.close(); 
   }
 }

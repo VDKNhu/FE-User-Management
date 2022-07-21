@@ -7,6 +7,8 @@ import {
   updateUserSuccess,
   getUsers,
   getUsersSuccess,
+  deleteUser,
+  deleteUserSuccess
 } from './users.action';
 import { initialState } from './users.state';
 import { user } from '../../models/user.model';
@@ -40,57 +42,66 @@ const _usersReducer = createReducer(
     };
   }),
   
-  // on(deleteUser, (state: any, action: any) => {
-  //   console.log('action user or any', state, action);
-  //   const deleted_users = state.users.filter((user: any) => {
-  //     return user.id !== action.id;
-  //   });
+  on(deleteUser, (state: any, action: any) => {
+    console.log('action user or any', state, action);
+    const deleted_users = state.users.filter((user: any) => {
+      return user.id !== action.id;
+    });
 
-  //   return {
-  //     ...state,
-  //     users: deleted_users,
-  //   };
-  // }),
-  // on(deleteUserSuccess, (state: any, action: any) => {
-  //   console.log('action user or any', state, action);
-  //   return {
-  //     ...state,
-  //   };
-  // }),
+    return {
+      ...state,
+      users: deleted_users,
+    };
+  }),
+  on(deleteUserSuccess, (state: any, action: any) => {
+    console.log('action user or any', state, action);
+    return {
+      ...state,
+    };
+  }),
 
   on(updateUser, (state: any, action: any) => {
-    let title: string = "";
-    switch (action.id) {
+    console.log('in update reducer', state, action);
+    let user: any = {
+      id: action.id,
+      firstName: action.firstName,
+      lastName: action.lastName,
+      dob: action.dateOfBirth,
+      gender: action.gender,
+      company: 'ROSEN',
+      title: 0,
+      email: action.email,
+      status: 'Active'
+    }
+    switch (action.title) {
       case 1: {
-        title = "Team Lead";
+        user.title  = "Team Lead";
         break;
       }
       case 2: {
-        title = "Architecture";
+        user.title  = "Architecture";
         break;
       }
       case 3: {
-        title = "Web Developer";
+        user.title  = "Web Developer";
         break;
       }
       case 4: {
-        title = "Tester";
+        user.title  = "Tester";
         break;
       }
       case 5: {
-        title = "UI/UX";
+        user.title  = "UI/UX";
         break;
       }
       case 6: {
-        title = "DBA";
+        user.title  = "DBA";
         break;
       }
     } 
-    
-    action.title = title;
 
-    const updated_user = state.users.map((user: user) => {
-      return action.id === user.id ? action : user;
+    const updated_user = state.users.map((_user: user) => {
+      return user.id === _user.id ? user : _user;
     });
 
     return {
