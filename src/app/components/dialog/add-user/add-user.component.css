@@ -1,0 +1,88 @@
+.header-form {
+  text-align: center;
+  margin: auto;
+}
+
+.date-gender {
+  display: flex;
+  width: 100%;
+  height: 65px;
+}
+
+.date {
+  width: 70%;
+}
+
+.gender {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.group-title {
+  height: 50px;
+  padding-bottom: 10px;
+}
+
+.title {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.group-header {
+  display: flex;
+  justify-content: space-around;
+}
+
+.btns-footer {
+  float: right;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 15px;
+}
+
+button {
+  background-color: #00458f;
+  color: white;
+  width: 148px;
+  height: 36px;
+  border: 0;
+  border-radius: 4px;
+}
+
+.grey-btn {
+  background: grey;
+  color: white;
+}
+
+.form-group {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.form-group .ng-invalid.ng-touched {
+  border: red 1px solid;
+}
+
+.btn-create .ng-invalid {
+  color: grey;
+}
+
+.btn-edit {
+  position: absolute;
+}
+
+.dialog-btn {
+  float: right;
+}
+
+.errors {
+  color: red;
+  font-style: italic;
+}

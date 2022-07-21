@@ -1,0 +1,37 @@
+.confirmDialog {
+  margin: auto;
+  width: 90%;
+}
+
+.btns {
+  float: right;
+}
+
+button {
+  background-color: #00458f;
+  color: white;
+  width: 148px;
+  height: 36px;
+  border: 0;
+  border-radius: 4px;
+}
+
+.grey-btn {
+  background: grey;
+  color: white;
+}
+
+.btns {
+  float: right;
+  width: 350px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+  padding-top: 15px;
+}
+
+.btn-delete {
+  background: red;
+  color: white;
+}

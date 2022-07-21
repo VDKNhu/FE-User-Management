@@ -1,0 +1,82 @@
+<div class="dashboard">
+  <div class="create-sort-search">
+    <div class="create">
+      <button class="create-user-btn btn btn-primary" (click)="openAddUser()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+        Create user
+      </button>
+    </div>
+    <div class="sort-search">
+      <div class="sort">
+        <label for="sort">Sort by &nbsp;</label>
+        <select
+          [formControl]="sortControl"
+          name="sort"
+          id="sort"
+          style="
+            height: 36px;
+            width: 120px;
+            border: solid 1px lightgray;
+            border-radius: 3px;
+          "
+        >
+          <option value="lastName" selected>Last name</option>
+          <option value="firstName">First name</option>
+          <option value="email">Email</option>
+        </select>
+        <fa-icon
+          class="icon"
+          [ngStyle]="{ color: 'black', width: 24, height: 24 }"
+          [icon]="faArrowUp"
+        >
+        </fa-icon>
+      </div>
+      <div
+        style="
+          top: 94px;
+          left: 1587px;
+          width: 1px;
+          height: 36px;
+          border: 1px solid #707070;
+          opacity: 1;
+          margin-left: 10px;
+          margin-right: 10px;
+        "
+      ></div>
+      <div class="search">
+        <div class="input-group flex-nowrap">
+          <span
+            class="input-group-text search-icon"
+            id="addon-wrapping"
+            style="background-color: white; border-right-width: 0; height: 36px"
+          >
+            <fa-icon
+              class="icon"
+              [ngStyle]="{ color: 'black', width: 24, height: 24 }"
+              [icon]="faSearch"
+              (click)="search()"
+            >
+            </fa-icon>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search"
+            aria-label="Username"
+            aria-describedby="addon-wrapping"
+            style="border-left-width: 0; height: 36px"
+            [formControl]="searchControl"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="data-loading">
+    <app-group-users
+      class="row list"
+      *ngFor="let group of (groups$ | async)"
+      [group]="group"
+    >
+    </app-group-users>
+  </div>
+</div>

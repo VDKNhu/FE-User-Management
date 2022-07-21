@@ -1,0 +1,147 @@
+<div mat-dialog-content>
+  <div class="group-header">
+    <div class="btns" *ngIf="this.editedUser">
+      <button (click)="openConfirmDialog(this.editedUser)">DELETE</button>
+    </div>
+
+    <h1 class="header-form">
+      {{
+        this.data.dialogName == "createPopup"
+          ? "CREATE NEW USER"
+          : "USER INFOMATION"
+      }}
+    </h1>
+
+    <div class="btns" *ngIf="this.editedUser && !this.isReadonly">
+      <button (click)="onSubmit(profileForm)">EDIT</button>
+    </div>
+    <div class="btns" *ngIf="this.editedUser && this.isReadonly">
+      <button (click)="handleReadonlyBtn()">EDIT</button>
+    </div>
+  </div>
+
+  <form
+    [formGroup]="profileForm"
+    status="profileForm.status"
+    enctype="multipart/form-data"
+  >
+    <div class="form-group">
+      <input hidden type="text" class="form-control" formControlName="id" />
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        placeholder="First name"
+        class="form-control"
+        formControlName="firstName"
+        [readonly]="this.isReadonly"
+        [ngClass]="{'input-error': profileForm.get('firstName').touched && !profileForm.get('firstName').valid}"
+        (input)="onChangeFirstName()"
+      />
+      <div *ngIf="(this.profileForm.get('firstName').touched && this.profileForm.get('firstName').hasError('required')) || this.firstNameError.errorIsRequired" style="height: 16px;" class="errors">First name is required.</div>
+      <div *ngIf="this.firstNameError.errorMaxLength" style="height: 16px;" class="errors">First name should be maximum 80 characters.</div>
+    </div>
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Last name"
+        formControlName="lastName"
+        [readonly]="this.isReadonly"
+        (input)="onChangeLastName()"
+      />
+      <div *ngIf="(this.profileForm.get('lastName').touched && this.profileForm.get('lastName').hasError('required')) || this.lastNameError.errorIsRequired" style="height: 16px;" class="errors">Last name is required.</div>
+      <div *ngIf="this.lastNameError.errorMaxLength" style="height: 16px;" class="errors">Last name should be maximum 80 characters.</div>
+    </div>
+    <div class="date-gender form-group">
+      <div class="form-group date">
+        <input
+          type="text"
+          onfocus="(this.type='date', this.placeholder='MM-dd-yyyy')"
+          class="form-control input-date"
+          placeholder="Date of birth"
+          formControlName="dob"
+          [readonly]="this.isReadonly"
+          min="1900-01-01"
+          [max]="todayDate"
+        />
+        <div style="height: 16px;" class="errors">{{dateError()}}</div>
+      </div>
+      <div class="form-group gender">
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            value="1"
+            formControlName="gender"
+            [disabled]="this.isReadonly"
+          />
+          <label class="form-check-label" for="male"> Male </label>
+        </div>
+        <div class="form-check">
+          <input
+            checked="true"
+            class="form-check-input"
+            type="radio"
+            value="2"
+            formControlName="gender"
+            [disabled]="this.isReadonly"
+          />
+          <label class="form-check-label" for="female"> Female </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="text" class="form-control" value="ROSEN" readonly />
+    </div>
+    <div class="group-title form-group">
+      <select
+        name="title"
+        id="title"
+        class="title form-control"
+        formControlName="title"
+      >
+        <option value="none" disabled selected hidden>Title</option>
+        <option value="teamLead">Team Lead</option>
+        <option value="architecture">Architecture</option>
+        <option value="webDev">Web Developer</option>
+        <option value="tester">Tester</option>
+        <option value="uiux">UI/UX</option>
+        <option value="dba">DBA</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <input
+        type="email"
+        class="form-control"
+        placeholder="Email"
+        formControlName="email"
+        [readonly]="this.isReadonly"
+        (input)="onChangeEmail()"
+      />
+      <div *ngIf="(this.profileForm.get('email').touched && this.profileForm.get('email').hasError('required')) || this.emailError.errorIsRequired" style="height: 16px;" class="errors">Email is required.</div>
+      <div *ngIf="this.emailError.errorFormat" style="height: 16px;" class="errors">Wrong email format.</div>
+      <div *ngIf="this.emailError.errorUnique" style="height: 16px;" class="errors">Email must be unique.</div>
+    </div>
+    <!-- <code>
+      {{profileForm.get('email')?.errors | json}} 
+    </code> -->
+  </form>
+  <div *ngIf="!isReadonly">
+    <div class="btns-footer" *ngIf="profileForm.valid; else invalidBtn">
+      <button class="grey-btn" (click)="closeFormDialog()">DISCARD</button>
+      <button class="btn-create" (click)="onSubmit(profileForm)">
+        {{ this.editedUser ? "EDIT" : "CREATE USER" }}
+      </button>
+    </div>
+    <ng-template #invalidBtn>
+      <div class="btns-footer">
+        <button class="grey-btn" (click)="closeFormDialog()">DISCARD</button>
+        <button class="grey-btn" disabled="isReadonly">
+          {{ this.editedUser ? "EDIT" : "CREATE USER" }}
+        </button>
+      </div>
+    </ng-template>  
+  </div>
+  <!-- <p>Form Status: {{ profileForm.status }}</p> -->
+</div>

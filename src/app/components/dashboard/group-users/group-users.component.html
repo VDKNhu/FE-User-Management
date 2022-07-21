@@ -1,0 +1,45 @@
+<div
+  class="title"
+  *ngIf="
+    !tglGroupUsers.showUsers && tglGroupUsers.titleGroupUsers == title;
+    else downArrow
+  "
+>
+  <div class="title">
+    <fa-icon
+      class="icon"
+      [ngStyle]="{ width: 24, height: 24 }"
+      [icon]="faChevronCircleRight"
+      (click)="toggleUsers(group)"
+    ></fa-icon>
+    <p>&nbsp; <strong>{{ group[0]?.title }}</strong></p>
+    <hr />
+  </div>
+</div>
+<ng-template #downArrow>
+  <div class="title">
+    <fa-icon
+      class="icon"
+      [ngStyle]="{ width: 24, height: 24 }"
+      [icon]="faChevronCircleDown"
+      (click)="toggleUsers(group)"
+    ></fa-icon>
+    <p>&nbsp; <strong>{{ group[0]?.title }}</strong></p>
+    <hr />
+  </div>
+</ng-template>
+<div
+  *ngIf="
+    tglGroupUsers.initState ||
+    !(!tglGroupUsers.showUsers && tglGroupUsers.titleGroupUsers == title)
+  "
+  class="row"
+>
+  <app-user
+    class="col-lg-4 col-md-5 col-sm-12 group"
+    *ngFor="let user of group"
+    [user]="user"
+    (click)="openDialog(user)"
+  >
+  </app-user>
+</div>

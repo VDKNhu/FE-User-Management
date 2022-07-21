@@ -1,0 +1,17 @@
+.group {
+    background: #EEEEEE;
+}
+
+.title {
+    width: 100%;
+    display: flex;
+}
+
+.icon {
+    cursor: pointer;
+}
+
+.row {
+    width: 100%;
+}
+

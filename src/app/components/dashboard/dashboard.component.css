@@ -1,0 +1,45 @@
+.create-user-btn {
+  margin-left: 24px;
+  background-color: #00458f;
+  color: white;
+  font-size: 16px;
+  border-width: 0;
+  width: 148px;
+  height: 36px;
+  border-radius: 4px;
+}
+
+.create-sort-search {
+  padding-top: 2%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: #eeeeee;
+}
+
+.sort-search {
+  margin-right: 24px;
+  display: flex;
+}
+
+.data-loading {
+  width: 100%;
+  background: #eeeeee;
+  padding-top: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.span-sort-search {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.list-users {
+  margin: 0px;
+  padding: 0px;
+}
+
+.search-icon {
+  cursor: pointer;
+}
