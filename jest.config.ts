@@ -1,18 +1,42 @@
+
 module.exports = {
-    "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": [
-        "<rootDir>/setup-jest.ts"
+    fakeTimers: {
+        timerLimit: 1000
+      },
+    clearMocks: true,
+    verbose: true,
+    preset: 'jest-preset-angular',
+    setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+    snapshotSerializers: [
+        'jest-preset-angular/build/serializers/ng-snapshot',
+        'jest-preset-angular/build/serializers/no-ng-attributes',
+        'jest-preset-angular/build/serializers/html-comment',
     ],
-    "transformIgnorePatterns": [
-        "node_modules/(?!@ngrx|ngx-socket-io)" // Last any packages here that error
+    testMatch: [
+        '<rootDir>/src/app/**/*.spec.ts',
+        '!<rootDir>/src/assets/**',
+        '!**/node_modules/**',
+        '!**/coverage/**',
+        '!**/cypress/**'
     ],
-    "transform": {
-        "^.+\\.(ts|js|html)$": "ts-jest"
+    moduleDirectories: [
+        'node_modules',
+        'src'
+    ],
+    globals: {
+        'ts-jest': {
+            tsconfig: '<rootDir>/tsconfig.spec.json',
+            stringifyContentPathRegex: '\\.html$',
+        }
     },
-    "testPathIgnorePatterns": [
-        "<rootDir>/node_modules/",
-        "<rootDir>/dist/",
-        "<rootDir>/cypress/",
-        "<rootDir>/src/test.ts",
-    ]
+    transform: {
+        '^.+\\.(ts|js|html|tsx|jsx|mjs)$': 'jest-preset-angular',
+    },
+    // testEnvironment: 'jest-environment-jsdom-fifteen',
+    moduleFileExtensions: ['ts', 'html', 'js', 'json', 'mjs'],
+    coveragePathIgnorePatterns: ['/node_modules/', '/modules/*.*/'],
+    transformIgnorePatterns: ['<rootDir>/node_modules/(?!.*\\.mjs$|)'],
+    roots: [
+        '<rootDir>'
+    ],
 };

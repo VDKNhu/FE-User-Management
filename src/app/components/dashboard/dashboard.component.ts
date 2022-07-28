@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { faArrowUp, faPlus, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { UserService } from './../../services/user.service';
-
-import { Store } from '@ngrx/store';
-import { appState } from 'app/state/store/app.state';
-import { getInitialUsers } from 'app/state/users/users.selectors';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -15,19 +16,19 @@ import {
   Observable,
   of,
   skip,
-  skipWhile,
   tap,
   toArray,
 } from 'rxjs';
+
+import { UserService } from './../../services/user.service';
+
+import { Store } from '@ngrx/store';
+import { appState } from 'app/state/store/app.state';
+import { getInitialUsers } from 'app/state/users/users.selectors';
+import { getUsers } from 'app/state/users/users.action';
+
 import { user } from '../../models/user.model';
 
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
-import { getUsers } from 'app/state/users/users.action';
 import { AddUserComponent } from '../dialog/add-user/add-user.component';
 
 export interface popupName {
@@ -67,8 +68,7 @@ export class DashboardComponent implements OnInit, CanActivate {
     private store: Store<appState>,
     private dialog: MatDialog,
     private UserService: UserService
-  ) {
-  }
+  ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -102,7 +102,6 @@ export class DashboardComponent implements OnInit, CanActivate {
       );
       this.groups$ = of(this.tempGroup);
     });
-
   }
 
   groupBy = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
@@ -112,7 +111,6 @@ export class DashboardComponent implements OnInit, CanActivate {
     }, {} as Record<K, T[]>);
 
   openAddUser() {
-    console.log('in open add user');
     const dialogRef = this.dialog.open(AddUserComponent, {
       width: '70%',
       height: 'fit-content',
@@ -124,13 +122,12 @@ export class DashboardComponent implements OnInit, CanActivate {
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      console.log('after close dialog add');
       this.store.dispatch(getUsers());
 
       this.arr_users$.pipe(skip(1)).subscribe((res) => {
         this.tempGroup = [];
-        Object.values(this.groupBy(res, (user) => user.title)).forEach((group) =>
-          this.tempGroup.push(group)
+        Object.values(this.groupBy(res, (user) => user.title)).forEach(
+          (group) => this.tempGroup.push(group)
         );
         this.groups$ = of(this.tempGroup);
       });
@@ -138,12 +135,10 @@ export class DashboardComponent implements OnInit, CanActivate {
   }
 
   search() {
-    console.log('in search');
     this.tempGroup = [];
     if (this.searchText != '') {
       this.UserService.searchUser(this.searchText)
         .pipe(
-          tap((x) => console.log('tap ', x)),
           mergeMap((res) => res),
           groupBy((user) => user.title),
           mergeMap((groups$) => groups$.pipe(toArray()))
@@ -151,7 +146,6 @@ export class DashboardComponent implements OnInit, CanActivate {
         .subscribe((groups) => {
           this.tempGroup.push(groups);
           this.groups$ = of(this.tempGroup);
-          this.groups$.subscribe((x) => console.log('final groups', x));
         });
     } else {
       this.UserService.getUsers()
@@ -163,7 +157,6 @@ export class DashboardComponent implements OnInit, CanActivate {
         .subscribe((groups) => {
           this.tempGroup.push(groups);
           this.groups$ = of(this.tempGroup);
-          this.groups$.subscribe((x) => console.log('final groups', x));
         });
     }
   }

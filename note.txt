@@ -1,0 +1,100 @@
+https://jestjs.io/
+Docs: https://jestjs.io/docs/getting-started
+Common use case: https://gist.github.com/the0neWhoKnocks/bdac1d09b93b8418d948558f7ab233d7
+
+Unit test 
+- Isolated test
+- Integration test (shallow integration test, deep integration test)
+
+BEST PRACTICE
+* Structuring Tests: AAA
+- A: Arrange all necessary preconditions and inputs
+- A: Act on the object or class under test
+- A: Assert that the expected results have occured
+
+* DRY (don't repeat yourself) = Remove duplication 
+- Move less interesting setup into berofeEach()
+- Keep critical setup within the it()
+- Include AAA inside it()
+
+TELLING THE STORY
+
+----------------------------------------------------------------------
+
+.spec.ts
+
+'user service getUsers method should retrieve the correct users'
+describe('user service', () => {
+    describe('getUser method', () => {
+        it('should retrieve the correct users', () => {
+
+        })
+    })
+})
+
+describe('my first test', () => {
+    let sut;
+
+    beforeEach(() => { 
+        sut = {}
+    })
+
+    it('should be true if true', () => {
+        // Arrange
+        sut.a = false;
+
+        // Act
+        sut.a = true;
+
+        // Assert
+        expect(sut.a).toBe(true); 
+    })
+})
+
+----------------------------------------------------------------------
+
+- Pipe
+- Service
+- Component
+- Mocking
+- Interaction Testing
+
+Pipe----------------------------------------------------------------------
+
+strength.pipe.ts
+
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'strength'
+})
+export class StrengthPipe implements PipeTransform {
+  transform(value: number): string {
+    if(value < 10) {
+      return value + " (weak)";
+    } else if(value >= 10 && value < 20) {
+      return value + " (strong)";
+    } else {
+      return value + " (unbelievable)";
+    }
+  }
+}
+
+strength.pipe.spec.ts
+describe('StrengthPipe', () => {
+    it('should display weak if strength is 5', () => {
+        let pipe = new StrengthPipe();
+
+        let val = pipe.transform(5);
+
+        expect(val).toEqual('5 (weak)');
+    })
+
+    it('should display strong if strength is 10', () => {
+        let pipe = new StrengthPipe();
+
+        let val = pipe.transform(10);
+
+        expect(val).toEqual('10 (strong)');
+    })
+})

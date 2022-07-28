@@ -1,6 +1,7 @@
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { user } from '../models/user.model';
 
@@ -20,8 +21,23 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<user[]> {
+  private handleError<T>(operation = 'operation') {
+    return (error: HttpErrorResponse): Observable<T> => {
+      console.log(error);
+      const message = `Server returned code ${error.status} with body "${error.error}"`;
+      throw new Error(`${operation} failed: ${message}`);
+    }
+  }
+
+  getUsers(): Observable<user[]> { 
     return this.http.get<user[]>(this.apiUrl);
+  }
+
+  getUsersWithError(): Observable<any> { // user[]
+    return this.http.get<user[]>(this.apiUrl).pipe(
+      tap(data => console.log('Data fetched', data)),
+      catchError(this.handleError('Failed to fetch data'))
+    );
   }
 
   onCreateUser(user: any): Observable<user> {
@@ -44,5 +60,12 @@ export class UserService {
 
   searchUser(text: string) {
     return this.http.post<any[]>(`${this.apiUrl}/${text}`, null, HttpOptions);
-  }
+  } 
+
+  // test_foreach(items: any, callback: any) {
+  //   for (let index = 0; index < items.length; index++) {
+  //     callback(items[index]);
+  //   }
+  // }
 }
+

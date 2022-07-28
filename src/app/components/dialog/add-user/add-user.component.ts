@@ -1,24 +1,25 @@
-import { UserService } from './../../../services/user.service';
-import { emailError } from './../../../models/emailError.model';
-
-import { UiService } from '../../../services/ui.service';
 import { Component, OnInit, Output, Input, EventEmitter, Inject } from '@angular/core';
 import { Validators, FormControl, FormGroup } from '@angular/forms';
-import { user } from '../../../models/user.model';
-import { dialog } from 'app/models/dialog.model';
+import { DatePipe } from '@angular/common';
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Observable, of, skip, Subscription, toArray } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { ConfirmDeleteUserComponent } from './../confirm-delete-user/confirm-delete-user.component';
+
+import { UserService } from './../../../services/user.service';
+import { UiService } from '../../../services/ui.service';
+
+import { user } from '../../../models/user.model';
 import { fNameError } from 'app/models/fNameError.model';
 import { lNameError } from 'app/models/lNameError.model';
-import { DatePipe } from '@angular/common';
+import { emailError } from './../../../models/emailError.model';
+import { dialog } from 'app/models/dialog.model';
+
 import { appState } from 'app/state/store/app.state';
-import { Store } from '@ngrx/store';
-import { addUser, getUsers, updateUser } from 'app/state/users/users.action';
+import { addUser, updateUser } from 'app/state/users/users.action';
 // import { UniqueEmailValidationDirective } from 'app/directives/unique-email-validation.directive';
-import { groupBy } from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -100,7 +101,6 @@ export class AddUserComponent implements OnInit {
 
   ngOnInit(): void {
     this.editedUser = this.data.user;
-    console.log('open edit', this.editedUser);
     this.groups$ = of(this.data.groupsUsers);
 
     if(this.data.dialogName == 'createPopup') {
@@ -133,7 +133,6 @@ export class AddUserComponent implements OnInit {
         break;
       }
     }
-    console.log('test editeduser', this.editedUser);
 
     if(this.editedUser) {
       this.mainDob = this.editedUser.dob ? this.editedUser.dob : '12-30-2020';
@@ -145,7 +144,6 @@ export class AddUserComponent implements OnInit {
         ('0' + this.dobUser.getDate()).slice(-2),
         this.dobUser.getFullYear()       
       ].join('-');
-
     }
 
     this.profileForm = new FormGroup({
@@ -196,9 +194,9 @@ export class AddUserComponent implements OnInit {
   this.uiService.handleReadonly();
  }
 
- onChange(event: any) {
-  console.log(event.target.value);
- }
+//  onChange(event: any) {
+//   console.log(event.target.value);
+//  }
 
  closeFormDialog() {
   this.dialogRef.close();
@@ -288,7 +286,6 @@ onChangeEmail() {
 
   // add + edit user
   onSubmit(e: any) {
-    console.log('edit/add', e.value);
     if(true) {
       switch (e.value.title) {
         case 'teamLead': {
@@ -317,35 +314,7 @@ onChangeEmail() {
         }
       }
     } 
-    // else {
-    //   switch (e.value.title) {
-    //     case 'teamLead': {
-    //       this.editTtl = "Team Lead";
-    //       break;
-    //     }
-    //     case 'architecture': {
-    //       this.editTtl = "Architecture";
-    //       break;
-    //     }
-    //     case 'webDev': {
-    //       this.editTtl = "Web Developer";
-    //       break;
-    //     }
-    //     case 'tester': {
-    //       this.editTtl = "Tester";
-    //       break;
-    //     }
-    //     case 'uiux': {
-    //       this.editTtl = "UI/UX";
-    //       break;
-    //     }
-    //     case 'dba': {
-    //       this.editTtl = "DBA";
-    //       break;
-    //     }
-    //   }  
-    // }
-
+    
     const addedUser: any = {
       firstName: e.value.firstName,
       lastName: e.value.lastName,
@@ -365,20 +334,13 @@ onChangeEmail() {
       gender: parseInt(e.value.gender),
       company: 'ROSEN',
       title: this.ttl,
-      // title: 'Web Developer',
       email: e.value.email,
     };
 
     if(this.editedUser) {
-      console.log('start edit');
-      console.log('editeduser in add-user comp', editedUser);
       this.store.dispatch(updateUser(editedUser));
       this.dialogRef.close(); 
-
-      // this.userService.onEditUser(editedUser);
     } else {
-      console.log('start add');
-      console.log('add in add user comp', addedUser);
       this.store.dispatch(addUser(addedUser));
       this.dialogRef.close(); 
     }

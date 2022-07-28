@@ -1,10 +1,17 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "sourceMap": true,
+    "allowJs": true,
+    "declaration": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "outDir": "./out-tsc/spec",
+    "module": "CommonJs",
+    "moduleResolution": "node",
     "types": [
       "jest",
+      "jsdom",
       "node"
     ]
   },
@@ -13,7 +20,7 @@
     "src/polyfills.ts"
   ],
   "include": [
-    "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+    "**/*.d.ts",
+    "src/**/*.unit-test.helper.ts"
   ]
 }
